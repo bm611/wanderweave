@@ -21,27 +21,56 @@ export const saveStory = async (
   userId: string,
   storyData: StoryboardData,
   tripDetails: TripDetails,
-  thumbnailDataUrl: string
+  imageDataUrls: { memoryId: string; dataUrl: string }[]
 ): Promise<SavedStory | null> => {
   if (!isSupabaseConfigured()) return null;
 
-  let thumbnailUrl = thumbnailDataUrl;
+  const storyId = Date.now().toString();
+  let thumbnailPath = '';
 
-  // Upload thumbnail to storage if it's a data URL
-  if (thumbnailDataUrl.startsWith('data:')) {
-    const fileName = `${userId}/${Date.now()}.jpg`;
-    const base64Data = thumbnailDataUrl.split(',')[1];
-    const { data: uploadData, error: uploadError } = await supabase.storage
-      .from('story-thumbnails')
-      .upload(fileName, decode(base64Data), {
-        contentType: 'image/jpeg',
-      });
+  // Upload all images and update segments with image paths
+  const updatedSegments = await Promise.all(
+    storyData.segments.map(async (segment, index) => {
+      const imageData = imageDataUrls.find(img => img.memoryId === segment.memoryId);
+      if (!imageData?.dataUrl) return segment;
 
-    if (!uploadError && uploadData) {
-      // Store the file path, not public URL (bucket is private)
-      thumbnailUrl = fileName;
-    }
-  }
+      const fileName = `${userId}/${storyId}/${index}.jpg`;
+      
+      // Handle both data URLs and blob URLs
+      let imageBlob: Blob | Uint8Array;
+      if (imageData.dataUrl.startsWith('data:')) {
+        const base64Data = imageData.dataUrl.split(',')[1];
+        imageBlob = decode(base64Data);
+      } else if (imageData.dataUrl.startsWith('blob:')) {
+        try {
+          const response = await fetch(imageData.dataUrl);
+          imageBlob = await response.blob();
+        } catch {
+          return segment;
+        }
+      } else {
+        return segment;
+      }
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('story-thumbnails')
+        .upload(fileName, imageBlob, {
+          contentType: 'image/jpeg',
+        });
+
+      if (!uploadError && uploadData) {
+        // Use first image as thumbnail
+        if (index === 0) {
+          thumbnailPath = fileName;
+        }
+        return { ...segment, imageUrl: fileName };
+      }
+
+      return segment;
+    })
+  );
+
+  const updatedStoryData = { ...storyData, segments: updatedSegments };
 
   const { data, error } = await supabase
     .from('stories')
@@ -52,8 +81,8 @@ export const saveStory = async (
       destination: tripDetails.destination,
       dates: tripDetails.dates,
       theme_color: storyData.themeColor,
-      thumbnail_url: thumbnailUrl,
-      story_data: storyData,
+      thumbnail_url: thumbnailPath,
+      story_data: updatedStoryData,
     })
     .select()
     .single();
@@ -80,20 +109,38 @@ export const getUserStories = async (userId: string): Promise<SavedStory[]> => {
     return [];
   }
 
-  // Generate signed URLs for thumbnails (private bucket)
+  // Generate signed URLs for thumbnails and segment images (private bucket)
   const storiesWithSignedUrls = await Promise.all(
     data.map(async (dbStory) => {
       const story = mapDbStoryToSavedStory(dbStory);
       
-      // If thumbnail is a storage path (not a data URL), generate signed URL
+      // Generate signed URL for thumbnail
       if (story.thumbnailUrl && !story.thumbnailUrl.startsWith('data:') && !story.thumbnailUrl.startsWith('http')) {
         const { data: signedUrlData } = await supabase.storage
           .from('story-thumbnails')
-          .createSignedUrl(story.thumbnailUrl, 3600); // 1 hour expiry
+          .createSignedUrl(story.thumbnailUrl, 3600);
         
         if (signedUrlData?.signedUrl) {
           story.thumbnailUrl = signedUrlData.signedUrl;
         }
+      }
+
+      // Generate signed URLs for all segment images
+      if (story.storyData?.segments) {
+        story.storyData.segments = await Promise.all(
+          story.storyData.segments.map(async (segment) => {
+            if (segment.imageUrl && !segment.imageUrl.startsWith('data:') && !segment.imageUrl.startsWith('http')) {
+              const { data: signedUrlData } = await supabase.storage
+                .from('story-thumbnails')
+                .createSignedUrl(segment.imageUrl, 3600);
+              
+              if (signedUrlData?.signedUrl) {
+                return { ...segment, imageUrl: signedUrlData.signedUrl };
+              }
+            }
+            return segment;
+          })
+        );
       }
       
       return story;

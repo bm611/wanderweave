@@ -20,6 +20,7 @@ export interface StorySegment {
   moodColor: string; // Hex code
   tags: string[];
   estimatedTimeOfDay?: string;
+  imageUrl?: string; // Stored image URL (from Supabase storage)
 }
 
 export interface StoryboardData {

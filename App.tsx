@@ -31,9 +31,13 @@ const AppContent: React.FC = () => {
       setAppState(AppState.STORYBOARD);
 
       // Save story if user is logged in
-      if (user && inputMemories[0]?.previewUrl) {
+      if (user && inputMemories.length > 0) {
         try {
-          await saveStory(user.id, data, details, inputMemories[0].previewUrl);
+          const imageDataUrls = inputMemories.map(m => ({
+            memoryId: m.id,
+            dataUrl: m.previewUrl,
+          }));
+          await saveStory(user.id, data, details, imageDataUrls);
         } catch (saveError) {
           console.warn('Failed to save story:', saveError);
         }

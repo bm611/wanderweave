@@ -11,7 +11,11 @@ interface StoryboardViewerProps {
 
 export const StoryboardViewer: React.FC<StoryboardViewerProps> = ({ data, originalMemories, tripDetails, onReset }) => {
   // Map original images to segments based on memoryId
+  // Use stored imageUrl if available (for saved stories), otherwise use original previewUrl
   const enrichedSegments = data.segments.map(segment => {
+    if (segment.imageUrl) {
+      return segment; // Already has stored image URL
+    }
     const original = originalMemories.find(m => m.id === segment.memoryId);
     return {
       ...segment,
