@@ -31,8 +31,22 @@ export interface StoryboardData {
 }
 
 export enum AppState {
+  HOME = 'HOME',
   INPUT = 'INPUT',
   PROCESSING = 'PROCESSING',
   STORYBOARD = 'STORYBOARD',
   ERROR = 'ERROR'
+}
+
+export interface SavedStory {
+  id: string;
+  userId: string;
+  title: string;
+  summary: string;
+  destination: string;
+  dates: string;
+  themeColor: string;
+  thumbnailUrl: string;
+  storyData: StoryboardData;
+  createdAt: string;
 }
