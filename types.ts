@@ -48,6 +48,8 @@ export interface SavedStory {
   summary: string;
   destination: string;
   dates: string;
+  year?: number | null;
+  month?: number | null;
   themeColor: string;
   thumbnailUrl: string;
   storyData: StoryboardData;

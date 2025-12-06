@@ -2,6 +2,18 @@ import React from 'react';
 import { SavedStory } from '../types';
 import { MapPin, Calendar, Trash2 } from 'lucide-react';
 
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+const formatDate = (story: SavedStory): string => {
+  if (story.year && story.month) {
+    return `${MONTH_NAMES[story.month - 1]} ${story.year}`;
+  }
+  if (story.year) {
+    return `${story.year}`;
+  }
+  return story.dates || '';
+};
+
 interface StoryCardProps {
   story: SavedStory;
   onClick: () => void;
@@ -49,7 +61,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
           </div>
           <div className="flex items-center gap-1 text-sm text-slate-500">
             <Calendar size={14} className="text-slate-400 flex-shrink-0" />
-            <span>{story.dates}</span>
+            <span>{formatDate(story)}</span>
           </div>
         </div>
 
@@ -105,7 +117,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
             </span>
             <span className="flex items-center gap-1">
               <Calendar size={14} />
-              {story.dates}
+              {formatDate(story)}
             </span>
           </div>
 

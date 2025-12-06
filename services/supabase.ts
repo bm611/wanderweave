@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { StoryboardData, TripDetails, SavedStory } from '../types';
+import { parseDate } from './dateParser';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -116,6 +117,13 @@ export const getUserStories = async (userId: string): Promise<SavedStory[]> => {
     data.map(async (dbStory) => {
       const story = mapDbStoryToSavedStory(dbStory);
       
+      // Backfill year/month if missing (for existing stories)
+      if (story.year == null && story.dates) {
+        const parsed = parseDate(story.dates);
+        story.year = parsed.year;
+        story.month = parsed.month;
+      }
+      
       // Generate signed URL for thumbnail
       if (story.thumbnailUrl && !story.thumbnailUrl.startsWith('data:') && !story.thumbnailUrl.startsWith('http')) {
         const { data: signedUrlData } = await supabase.storage
@@ -175,6 +183,8 @@ const mapDbStoryToSavedStory = (dbStory: any): SavedStory => ({
   summary: dbStory.summary,
   destination: dbStory.destination,
   dates: dbStory.dates,
+  year: dbStory.year,
+  month: dbStory.month,
   themeColor: dbStory.theme_color,
   thumbnailUrl: dbStory.thumbnail_url,
   storyData: dbStory.story_data,
