@@ -3,7 +3,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { getUserStories, deleteStory } from '../services/supabase';
 import { SavedStory, StoryboardData, TripMemoryInput } from '../types';
 import { StoryCard } from './StoryCard';
-import { Plus, Compass, Loader2 } from 'lucide-react';
+import { MapView } from './MapView';
+import { Plus, Compass, Loader2, LayoutGrid, Map } from 'lucide-react';
 
 interface StoriesGalleryProps {
   onCreateNew: () => void;
@@ -19,6 +20,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
   const { user, isConfigured } = useAuth();
   const [stories, setStories] = useState<SavedStory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
 
   useEffect(() => {
     if (user) {
@@ -55,13 +57,33 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
                 : 'Start creating your travel memories'}
             </p>
           </div>
-          <button
-            onClick={onCreateNew}
-            className="flex items-center gap-2 px-3 sm:px-5 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20"
-          >
-            <Plus size={20} />
-            <span className="hidden sm:inline">New Story</span>
-          </button>
+          <div className="flex items-center gap-2">
+            {stories.length > 0 && (
+              <div className="flex bg-slate-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-white shadow-sm text-teal-600' : 'text-slate-500 hover:text-slate-700'}`}
+                  title="Grid view"
+                >
+                  <LayoutGrid size={20} />
+                </button>
+                <button
+                  onClick={() => setViewMode('map')}
+                  className={`p-2 rounded-md transition-colors ${viewMode === 'map' ? 'bg-white shadow-sm text-teal-600' : 'text-slate-500 hover:text-slate-700'}`}
+                  title="Map view"
+                >
+                  <Map size={20} />
+                </button>
+              </div>
+            )}
+            <button
+              onClick={onCreateNew}
+              className="flex items-center gap-2 px-3 sm:px-5 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20"
+            >
+              <Plus size={20} />
+              <span className="hidden sm:inline">New Story</span>
+            </button>
+          </div>
         </div>
 
         {!isConfigured && (
@@ -122,6 +144,8 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
               Create Your First Story
             </button>
           </div>
+        ) : viewMode === 'map' ? (
+          <MapView stories={stories} onViewStory={onViewStory} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {stories.map((story) => (
