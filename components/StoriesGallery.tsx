@@ -48,7 +48,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-serif font-bold text-slate-800">Your Stories</h1>
+            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-800">Your Stories</h1>
             <p className="text-slate-500 mt-1">
               {stories.length > 0
                 ? `${stories.length} travel ${stories.length === 1 ? 'story' : 'stories'} saved`
@@ -57,10 +57,10 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
           </div>
           <button
             onClick={onCreateNew}
-            className="flex items-center gap-2 px-5 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20"
+            className="flex items-center gap-2 px-3 sm:px-5 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20"
           >
             <Plus size={20} />
-            New Story
+            <span className="hidden sm:inline">New Story</span>
           </button>
         </div>
 
