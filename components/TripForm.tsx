@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { TripMemoryInput, TripDetails } from '../types';
-import { Plus, X, Image as ImageIcon, MapPin, NotebookPen, Sparkles, Calendar, Users, Globe } from 'lucide-react';
+import { Plus, X, Image as ImageIcon, MapPin, NotebookPen, Sparkles, Calendar, Users, Globe, Loader2 } from 'lucide-react';
+import { compressImage } from '../services/imageUtils';
 
 interface TripFormProps {
   onSubmit: (memories: TripMemoryInput[], details: TripDetails) => void;
@@ -12,22 +13,30 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
   const [destination, setDestination] = useState('');
   const [dates, setDates] = useState('');
   const [companions, setCompanions] = useState('');
+  const [isCompressing, setIsCompressing] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const newMemories: TripMemoryInput[] = Array.from(e.target.files).map((item) => {
-        const file = item as File;
-        return {
-          id: crypto.randomUUID(),
-          file,
-          previewUrl: URL.createObjectURL(file),
-          location: '',
-          notes: '',
-        };
-      });
+      setIsCompressing(true);
+      const files = Array.from(e.target.files);
+      
+      const newMemories: TripMemoryInput[] = await Promise.all(
+        files.map(async (file) => {
+          const compressedBlob = await compressImage(file);
+          return {
+            id: crypto.randomUUID(),
+            file: new File([compressedBlob], file.name, { type: 'image/jpeg' }),
+            previewUrl: URL.createObjectURL(compressedBlob),
+            location: '',
+            notes: '',
+          };
+        })
+      );
+      
       setMemories((prev) => [...prev, ...newMemories]);
+      setIsCompressing(false);
     }
     // Reset input
     if (fileInputRef.current) fileInputRef.current.value = '';
@@ -169,14 +178,23 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
 
             {/* Add Button Area */}
             <div 
-              onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center min-h-[160px] border-2 border-dashed border-slate-300 rounded-2xl cursor-pointer hover:border-teal-500 hover:bg-teal-50/50 transition-all group"
+              onClick={() => !isCompressing && fileInputRef.current?.click()}
+              className={`flex flex-col items-center justify-center min-h-[160px] border-2 border-dashed border-slate-300 rounded-2xl transition-all group ${isCompressing ? 'cursor-wait opacity-70' : 'cursor-pointer hover:border-teal-500 hover:bg-teal-50/50'}`}
             >
-              <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center mb-3 transition-colors">
-                <ImageIcon className="text-slate-400 group-hover:text-teal-600" size={24} />
-              </div>
-              <p className="text-sm font-semibold text-slate-600 group-hover:text-teal-700">Add Photos</p>
-              <p className="text-xs text-slate-400 mt-1">JPEGs or PNGs</p>
+              {isCompressing ? (
+                <>
+                  <Loader2 className="w-12 h-12 text-teal-600 animate-spin mb-3" />
+                  <p className="text-sm font-semibold text-slate-600">Optimizing photos...</p>
+                </>
+              ) : (
+                <>
+                  <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center mb-3 transition-colors">
+                    <ImageIcon className="text-slate-400 group-hover:text-teal-600" size={24} />
+                  </div>
+                  <p className="text-sm font-semibold text-slate-600 group-hover:text-teal-700">Add Photos</p>
+                  <p className="text-xs text-slate-400 mt-1">JPEGs or PNGs</p>
+                </>
+              )}
               <input
                 type="file"
                 multiple
