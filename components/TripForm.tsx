@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { TripMemoryInput, TripDetails } from '../types';
 import { Plus, X, Image as ImageIcon, MapPin, NotebookPen, Sparkles, Calendar, Users, Globe, Loader2 } from 'lucide-react';
 import { compressImage } from '../services/imageUtils';
+import { parseDate } from '../services/dateParser';
 
 interface TripFormProps {
   onSubmit: (memories: TripMemoryInput[], details: TripDetails) => void;
@@ -55,7 +56,14 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (memories.length === 0) return;
-    onSubmit(memories, { destination, dates, companions });
+    const parsed = parseDate(dates);
+    onSubmit(memories, { 
+      destination, 
+      dates, 
+      parsedYear: parsed.year,
+      parsedMonth: parsed.month,
+      companions 
+    });
   };
 
   return (

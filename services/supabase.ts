@@ -80,6 +80,8 @@ export const saveStory = async (
       summary: storyData.summary,
       destination: tripDetails.destination,
       dates: tripDetails.dates,
+      year: tripDetails.parsedYear,
+      month: tripDetails.parsedMonth,
       theme_color: storyData.themeColor,
       thumbnail_url: thumbnailPath,
       story_data: updatedStoryData,

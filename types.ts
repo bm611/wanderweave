@@ -9,6 +9,8 @@ export interface TripMemoryInput {
 export interface TripDetails {
   destination: string;
   dates: string;
+  parsedYear?: number | null;
+  parsedMonth?: number | null;
   companions: string;
 }
 
