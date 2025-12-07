@@ -76,7 +76,7 @@ export const MapView: React.FC<MapViewProps> = ({ stories, onViewStory }) => {
     : [20, 0];
 
   return (
-    <div className="h-[500px] rounded-xl overflow-hidden border border-slate-200 shadow-sm">
+    <div className="h-[500px] rounded-3xl overflow-hidden bg-white/60 backdrop-blur">
       <MapContainer
         center={defaultCenter}
         zoom={storiesWithCoords.length === 1 ? 6 : 2}
