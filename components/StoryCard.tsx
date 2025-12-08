@@ -36,7 +36,13 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
         className="sm:hidden group relative overflow-hidden rounded-2xl border border-white/70 bg-white/80 shadow-[0_18px_60px_rgba(15,23,42,0.12)] hover:-translate-y-1 transition-all duration-300 cursor-pointer aspect-[16/10]"
       >
         <div className="absolute inset-0">
-          {story.thumbnailUrl ? (
+          {story.storyData.weatherImageUrl && !story.storyData.weatherImageUrl.startsWith('data:') ? (
+             <img
+              src={story.storyData.weatherImageUrl}
+              alt={`${story.destination} Miniature`}
+              className="w-full h-full object-cover"
+            />
+          ) : story.thumbnailUrl ? (
             <img
               src={story.thumbnailUrl}
               alt={story.title}
@@ -92,15 +98,21 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
       {/* Desktop Layout */}
       <div
         onClick={onClick}
-        className="hidden sm:block group relative overflow-hidden rounded-3xl border border-white/70 bg-white/80 shadow-[0_24px_70px_rgba(15,23,42,0.08)] transition-all duration-500 cursor-pointer hover:-translate-y-1"
+        className="hidden sm:block group relative overflow-hidden rounded-3xl border border-white/70 bg-white/80 shadow-[0_24px_70px_rgba(15,23,42,0.08)] transition-all duration-500 cursor-pointer hover:-translate-y-2 hover:shadow-[0_32px_80px_rgba(15,23,42,0.12)]"
       >
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.08),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.1),transparent_40%)]" />
-        <div className="aspect-[4/3] relative overflow-hidden">
-          {story.thumbnailUrl ? (
+        <div className="aspect-[4/3] relative overflow-hidden bg-slate-100">
+           {story.storyData.weatherImageUrl && !story.storyData.weatherImageUrl.startsWith('data:') ? (
+             <img
+              src={story.storyData.weatherImageUrl}
+              alt={`${story.destination} Miniature`}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1"
+            />
+          ) : story.thumbnailUrl ? (
             <img
               src={story.thumbnailUrl}
               alt={story.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
             <div
@@ -112,13 +124,15 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
               </span>
             </div>
           )}
+          
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60" />
+          
           <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/85 text-slate-800 text-xs font-medium shadow-sm">
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/85 text-slate-800 text-xs font-medium shadow-sm backdrop-blur-md">
               <MapPin size={12} />
               {story.destination}
             </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-black/30 text-white text-xs font-medium backdrop-blur">
+            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-black/30 text-white text-xs font-medium backdrop-blur-md">
               <Calendar size={12} />
               {formatDate(story)}
             </span>
@@ -126,14 +140,14 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
           
           <button
             onClick={handleDelete}
-            className="absolute top-3 right-3 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-red-50 text-slate-500 hover:text-red-500 shadow-sm"
+            className="absolute top-3 right-3 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-50 text-slate-500 hover:text-red-500 shadow-sm translate-y-2 group-hover:translate-y-0"
           >
             <Trash2 size={16} />
           </button>
         </div>
 
         <div className="relative p-5 space-y-3">
-          <h3 className="font-serif font-bold text-xl text-slate-900 leading-tight line-clamp-1">
+          <h3 className="font-serif font-bold text-xl text-slate-900 leading-tight line-clamp-1 group-hover:text-teal-700 transition-colors">
             {story.title}
           </h3>
 
@@ -144,8 +158,8 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
 
         <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-500/80 via-cyan-400/80 to-emerald-400/80">
           <div
-            className="h-full"
-            style={{ backgroundColor: story.themeColor || '#0d9488', opacity: 0.4 }}
+            className="h-full transition-all duration-500 group-hover:opacity-100"
+            style={{ backgroundColor: story.themeColor || '#0d9488', opacity: 0.6 }}
           />
         </div>
       </div>

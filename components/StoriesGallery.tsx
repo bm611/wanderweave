@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserStories, deleteStory } from '../services/supabase';
-import { SavedStory, StoryboardData, TripMemoryInput } from '../types';
+import { SavedStory } from '../types';
 import { StoryCard } from './StoryCard';
-import { MapView } from './MapView';
-import { Plus, Compass, Loader2, LayoutGrid, Map, User } from 'lucide-react';
+import { Plus, Compass, Loader2 } from 'lucide-react';
 
 interface StoriesGalleryProps {
   onCreateNew: () => void;
@@ -20,7 +19,6 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
   const { user, isConfigured } = useAuth();
   const [stories, setStories] = useState<SavedStory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
 
   useEffect(() => {
     if (user) {
@@ -77,39 +75,6 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
             </div>
           </div>
         </div>
-
-        {user && stories.length > 0 && (
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/60">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    viewMode === 'grid' 
-                      ? 'bg-white text-slate-900 shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
-                  }`}
-                  title="Grid view"
-                >
-                  <LayoutGrid size={16} />
-                  Grid
-                </button>
-                <button
-                  onClick={() => setViewMode('map')}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    viewMode === 'map' 
-                      ? 'bg-white text-slate-900 shadow-sm' 
-                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
-                  }`}
-                  title="Map view"
-                >
-                  <Map size={16} />
-                  Map
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {!isConfigured && (
           <div className="bg-white/80 border border-amber-200/70 rounded-2xl p-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
@@ -168,10 +133,6 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
               <Plus size={20} />
               Create Your First Story
             </button>
-          </div>
-        ) : viewMode === 'map' ? (
-          <div className="rounded-3xl border border-white/70 bg-white/80 shadow-[0_18px_50px_rgba(15,23,42,0.08)] overflow-hidden">
-            <MapView stories={stories} onViewStory={onViewStory} />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
