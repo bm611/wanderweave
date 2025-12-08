@@ -132,7 +132,7 @@ const AppContent: React.FC = () => {
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-105 hover:bg-slate-800"
+                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-105 hover:bg-slate-800"
               >
                 <User size={16} className="shrink-0" />
                 <span>Sign In</span>
