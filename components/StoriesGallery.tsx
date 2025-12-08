@@ -111,15 +111,6 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
           </div>
           <div className="flex items-center gap-3">
              {/* Redundant "Start a new story" button removed */}
-            {!user && (
-              <button
-                onClick={onSignIn}
-                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-slate-700 font-semibold border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all shadow-sm"
-              >
-                <User size={18} />
-                Sign in
-              </button>
-            )}
           </div>
         </div>
 
