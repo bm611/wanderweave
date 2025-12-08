@@ -28,6 +28,24 @@ export const saveStory = async (
 
   const storyId = Date.now().toString();
   let thumbnailPath = '';
+  let weatherImagePath = storyData.weatherImageUrl;
+
+  // Handle Weather/Location Image Upload
+  if (storyData.weatherImageUrl?.startsWith('data:image')) {
+      const fileName = `${userId}/${storyId}/weather.jpg`;
+      const base64Data = storyData.weatherImageUrl.split(',')[1];
+      const imageBlob = decode(base64Data);
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('story-thumbnails')
+        .upload(fileName, imageBlob, {
+          contentType: 'image/jpeg',
+        });
+      
+      if (!uploadError && uploadData) {
+          weatherImagePath = fileName;
+      }
+  }
 
   // Upload all images and update segments with image paths
   const updatedSegments = await Promise.all(
@@ -71,7 +89,11 @@ export const saveStory = async (
     })
   );
 
-  const updatedStoryData = { ...storyData, segments: updatedSegments };
+  const updatedStoryData = { 
+    ...storyData, 
+    segments: updatedSegments,
+    weatherImageUrl: weatherImagePath
+  };
 
   const { data, error } = await supabase
     .from('stories')
@@ -137,6 +159,17 @@ export const getUserStories = async (userId: string): Promise<SavedStory[]> => {
 
       // Generate signed URLs for all segment images
       if (story.storyData?.segments) {
+        // Handle weather image signed URL
+        if (story.storyData.weatherImageUrl && !story.storyData.weatherImageUrl.startsWith('data:') && !story.storyData.weatherImageUrl.startsWith('http')) {
+          const { data: signedUrlData } = await supabase.storage
+            .from('story-thumbnails')
+            .createSignedUrl(story.storyData.weatherImageUrl, 3600);
+          
+          if (signedUrlData?.signedUrl) {
+            story.storyData.weatherImageUrl = signedUrlData.signedUrl;
+          }
+        }
+
         story.storyData.segments = await Promise.all(
           story.storyData.segments.map(async (segment) => {
             if (segment.imageUrl && !segment.imageUrl.startsWith('data:') && !segment.imageUrl.startsWith('http')) {
