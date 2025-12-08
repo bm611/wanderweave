@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { StoryboardData, TripMemoryInput, TripDetails } from "../types";
+import { generateLocationImage } from "./togetherService";
 
 // Helper to convert File to base64
 const fileToPart = (file: File): Promise<string> => {
@@ -116,42 +117,6 @@ const generateStoryText = async (ai: GoogleGenAI, memories: TripMemoryInput[], d
   return data;
 };
 
-// Internal function for weather image generation
-const generateWeatherCard = async (ai: GoogleGenAI, details: TripDetails): Promise<string | undefined> => {
-  try {
-    const prompt = `Present a clear, 45° top-down isometric miniature 3D cartoon scene of ${details.destination}, featuring its most iconic landmarks and architectural elements. Use soft, refined textures with realistic PBR materials and gentle, lifelike lighting and shadows. Integrate the typical weather conditions for ${details.dates} directly into the city environment to create an immersive atmospheric mood.
-Use a clean, minimalistic composition with a soft, solid-colored background.
-
-At the top-center, render the title "${details.destination}" in large bold text, a prominent weather icon beneath it, then the date "${details.dates}" (small text) and the estimated typical temperature for this time (medium text).
-All text must be centered with consistent spacing, and may subtly overlap the tops of the buildings.
-Square 1080x1080 dimension.`;
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-image-preview',
-      contents: { parts: [{ text: prompt }] },
-      config: {
-        imageConfig: {
-          aspectRatio: "1:1",
-          imageSize: "1K"
-        }
-      }
-    });
-
-    for (const candidate of response.candidates || []) {
-      for (const part of candidate.content.parts) {
-        if (part.inlineData) {
-          return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-        }
-      }
-    }
-    return undefined;
-  } catch (error) {
-    console.warn("Weather image generation failed:", error);
-    // Return undefined so the app continues without the image
-    return undefined;
-  }
-};
-
 export const generateStoryboard = async (memories: TripMemoryInput[], details: TripDetails): Promise<StoryboardData> => {
   const apiKey = process.env.API_KEY;
   if (!apiKey) {
@@ -163,7 +128,7 @@ export const generateStoryboard = async (memories: TripMemoryInput[], details: T
   // Run text and image generation in parallel
   const [storyData, weatherImageUrl] = await Promise.all([
     generateStoryText(ai, memories, details),
-    generateWeatherCard(ai, details)
+    generateLocationImage(details.destination)
   ]);
 
   return {
