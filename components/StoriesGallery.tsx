@@ -80,7 +80,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
 
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
-            {stories.length > 0 && (
+            {user && stories.length > 0 && (
               <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/60">
                 <button
                   onClick={() => setViewMode('grid')}
@@ -108,9 +108,6 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
                 </button>
               </div>
             )}
-          </div>
-          <div className="flex items-center gap-3">
-             {/* Redundant "Start a new story" button removed */}
           </div>
         </div>
 
