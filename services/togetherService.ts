@@ -1,7 +1,7 @@
 export const generateLocationImage = async (location: string): Promise<string | undefined> => {
-  const apiKey = process.env.TOGETHER_API_KEY;
+  const apiKey = import.meta.env.VITE_TOGETHER_API_KEY;
   if (!apiKey) {
-    console.warn("Together API Key is missing.");
+    console.warn("Together API Key is missing. Make sure VITE_TOGETHER_API_KEY is set.");
     return undefined;
   }
 

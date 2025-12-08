@@ -118,9 +118,9 @@ const generateStoryText = async (ai: GoogleGenAI, memories: TripMemoryInput[], d
 };
 
 export const generateStoryboard = async (memories: TripMemoryInput[], details: TripDetails): Promise<StoryboardData> => {
-  const apiKey = process.env.API_KEY;
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
-    throw new Error("API Key is missing.");
+    throw new Error("API Key is missing. Make sure VITE_GEMINI_API_KEY is set.");
   }
 
   const ai = new GoogleGenAI({ apiKey });
