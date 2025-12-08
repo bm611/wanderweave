@@ -78,9 +78,9 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3">
-            {user && stories.length > 0 && (
+        {user && stories.length > 0 && (
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/60">
                 <button
                   onClick={() => setViewMode('grid')}
@@ -107,9 +107,9 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
                   Map
                 </button>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
 
         {!isConfigured && (
           <div className="bg-white/80 border border-amber-200/70 rounded-2xl p-4 shadow-[0_16px_40px_rgba(15,23,42,0.06)]">
@@ -125,7 +125,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
             <p className="text-slate-500">Loading your stories...</p>
           </div>
         ) : !user ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl bg-white/80 border border-slate-200 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
+          <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl bg-white/80 border-2 border-slate-200 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
             <div className="w-20 h-20 bg-gradient-to-br from-teal-200 to-cyan-200 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
               <Compass size={40} className="text-teal-700" />
             </div>
