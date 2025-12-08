@@ -78,65 +78,67 @@ const AppContent: React.FC = () => {
   };
 
   const NavBar = () => (
-    <nav className="sticky top-0 z-20 px-4 sm:px-6 pt-4 pb-2">
-      <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/70 bg-white/90 backdrop-blur-2xl shadow-[0_8px_32px_rgba(15,23,42,0.08)] px-4 sm:px-6 py-3.5">
-        <button
-          onClick={handleReset}
-          className="group flex items-center gap-2 transition-all hover:scale-[1.02]"
-        >
-          <div className="relative flex items-center gap-2">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity" />
-              <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                <Compass size={18} className="text-white shrink-0" />
-              </div>
-            </div>
-            <div className="flex flex-col -space-y-0.5">
-              <span className="text-xl font-serif font-bold bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
-                WanderWeave
-              </span>
-              <div className="h-0.5 w-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full opacity-60" />
-            </div>
-          </div>
-        </button>
-
-        <div className="flex items-center gap-2">
-          <a
-            href="https://github.com/bm611/wanderweave"
-            target="_blank"
-            rel="noreferrer"
-            className="group inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-sm hover:border-slate-300 hover:bg-white hover:text-slate-900 transition-all"
-            title="View on GitHub"
+    <nav className="sticky top-0 z-50 w-full border-b border-white/50 bg-white/60 backdrop-blur-xl transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          <button
+            onClick={handleReset}
+            className="group flex items-center gap-2 transition-all hover:scale-[1.02]"
           >
-            <Github size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline">Star</span>
-          </a>
-          {user ? (
-            <>
-              <div className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-gradient-to-br from-slate-50 to-slate-100/80 border border-slate-200/60 shadow-sm backdrop-blur-sm">
-                <User size={14} className="text-teal-600 shrink-0" />
-                <span className="text-sm font-medium text-slate-700">
-                  {user.email}
-                </span>
+            <div className="relative flex items-center gap-2">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity" />
+                <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center shadow-lg">
+                  <Compass size={18} className="text-white shrink-0" />
+                </div>
               </div>
-              <button
-                onClick={() => signOut()}
-                className="group inline-flex items-center gap-1.5 rounded-full bg-white/80 border border-slate-200/80 px-3 py-2 text-slate-600 backdrop-blur-sm hover:border-red-200 hover:bg-red-50/80 hover:text-red-600 transition-all shadow-sm"
-                title="Sign out"
-              >
-                <LogOut size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="hidden sm:inline">Sign out</span>
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={() => setShowAuthModal(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 text-white text-sm font-semibold shadow-lg shadow-teal-400/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-400/40"
+              <div className="flex flex-col -space-y-0.5">
+                <span className="text-xl font-serif font-bold bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                  WanderWeave
+                </span>
+                <div className="h-0.5 w-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full opacity-60" />
+              </div>
+            </div>
+          </button>
+
+          <div className="flex items-center gap-2">
+            <a
+              href="https://github.com/bm611/wanderweave"
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-slate-200/60 bg-white/50 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-sm hover:border-slate-300 hover:bg-white hover:text-slate-900 transition-all"
+              title="View on GitHub"
             >
-              <User size={16} className="shrink-0" />
-              <span>Sign In</span>
-            </button>
-          )}
+              <Github size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
+              <span className="hidden sm:inline">Star</span>
+            </a>
+            {user ? (
+              <>
+                <div className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-gradient-to-br from-slate-50 to-slate-100/80 border border-slate-200/60 shadow-sm backdrop-blur-sm">
+                  <User size={14} className="text-teal-600 shrink-0" />
+                  <span className="text-sm font-medium text-slate-700">
+                    {user.email}
+                  </span>
+                </div>
+                <button
+                  onClick={() => signOut()}
+                  className="group inline-flex items-center gap-1.5 rounded-full bg-white/50 border border-slate-200/60 px-3 py-2 text-slate-600 backdrop-blur-sm hover:border-red-200 hover:bg-red-50/80 hover:text-red-600 transition-all shadow-sm"
+                  title="Sign out"
+                >
+                  <LogOut size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="hidden sm:inline">Sign out</span>
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-105 hover:bg-slate-800"
+              >
+                <User size={16} className="shrink-0" />
+                <span>Sign In</span>
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </nav>

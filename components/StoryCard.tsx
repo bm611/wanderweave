@@ -133,28 +133,9 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
         </div>
 
         <div className="relative p-5 space-y-3">
-          <div className="flex items-center gap-2 text-xs text-slate-500">
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-              <span className="h-2 w-2 rounded-full" style={{ backgroundColor: story.themeColor || '#0d9488' }} />
-              Story capsule
-            </span>
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white border border-slate-200 text-slate-700 shadow-sm">
-              {story.year || story.month ? 'Dated' : 'Undated'}
-            </span>
-          </div>
           <h3 className="font-serif font-bold text-xl text-slate-900 leading-tight line-clamp-1">
             {story.title}
           </h3>
-          <div className="flex items-center gap-4 text-sm text-slate-600">
-            <span className="flex items-center gap-1">
-              <MapPin size={14} />
-              {story.destination}
-            </span>
-            <span className="flex items-center gap-1">
-              <Calendar size={14} />
-              {formatDate(story)}
-            </span>
-          </div>
 
           <p className="text-sm text-slate-600 line-clamp-2">
             {story.summary}

@@ -48,25 +48,29 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
   return (
     <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0f766e] via-[#0ea5e9] to-[#38bdf8] text-white shadow-[0_24px_80px_rgba(14,165,233,0.35)]">
-          <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.32),transparent_36%),radial-gradient(circle_at_82%_6%,rgba(255,255,255,0.24),transparent_34%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(15,118,110,0.45),transparent_40%)] opacity-70" />
-          <div className="relative grid md:grid-cols-3 gap-8 items-center px-6 sm:px-10 py-10">
-            <div className="md:col-span-2 space-y-4">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 text-sm font-semibold backdrop-blur">
-                <span className="h-2 w-2 rounded-full bg-white" />
+        {/* Modernized Hero Section */}
+        <div className="relative overflow-hidden rounded-3xl bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-teal-200 via-cyan-200 to-sky-200 shadow-[0_24px_80px_rgba(14,165,233,0.15)]">
+           <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl mix-blend-overlay" />
+           <div className="absolute -top-24 -right-24 w-96 h-96 bg-cyan-400/30 rounded-full blur-3xl" />
+           <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-400/30 rounded-full blur-3xl" />
+           
+          <div className="relative grid md:grid-cols-3 gap-8 items-center px-8 sm:px-12 py-16">
+            <div className="md:col-span-2 space-y-6">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/40 border border-white/50 text-teal-900 text-xs font-bold tracking-wide uppercase shadow-sm backdrop-blur-md">
                 Upload. Weave. Relive.
               </span>
-              <h1 className="text-3xl sm:text-4xl font-serif font-bold leading-tight">
-                Upload your trip photos and get a vivid travel story.
+              <h1 className="text-4xl sm:text-5xl font-serif font-bold leading-tight text-slate-800 tracking-tight">
+                Upload your trip photos and <br className="hidden sm:block"/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">
+                  get a vivid travel story.
+                </span>
               </h1>
-              <div className="h-1 w-16 rounded-full bg-white/60" />
-              <div className="flex flex-wrap gap-3 items-center">
+              <div className="flex flex-wrap gap-4 items-center pt-2">
                 <button
                   onClick={onCreateNew}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-teal-800 font-semibold shadow-lg shadow-cyan-500/30 hover:-translate-y-0.5 transition-transform"
+                  className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-slate-900 text-white font-semibold shadow-xl shadow-slate-900/20 hover:scale-[1.02] hover:bg-slate-800 transition-all duration-300"
                 >
-                  <Plus size={18} />
+                  <Plus size={18} className="text-teal-300 group-hover:rotate-90 transition-transform duration-500" />
                   Compose a story
                 </button>
               </div>
@@ -77,10 +81,14 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-3">
             {stories.length > 0 && (
-              <div className="flex bg-white border border-slate-200/70 rounded-full p-1 shadow-sm">
+              <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/60">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-all ${viewMode === 'grid' ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-sm shadow-cyan-500/25' : 'text-slate-600 hover:text-teal-700'}`}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'grid' 
+                      ? 'bg-white text-slate-900 shadow-sm' 
+                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                  }`}
                   title="Grid view"
                 >
                   <LayoutGrid size={16} />
@@ -88,7 +96,11 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
                 </button>
                 <button
                   onClick={() => setViewMode('map')}
-                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm transition-all ${viewMode === 'map' ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-sm shadow-cyan-500/25' : 'text-slate-600 hover:text-teal-700'}`}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'map' 
+                      ? 'bg-white text-slate-900 shadow-sm' 
+                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                  }`}
                   title="Map view"
                 >
                   <Map size={16} />
@@ -98,17 +110,11 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
             )}
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={onCreateNew}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-teal-800 font-semibold border border-teal-100 shadow-[0_12px_30px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 transition-transform"
-            >
-              <Plus size={18} />
-              Start a new story
-            </button>
+             {/* Redundant "Start a new story" button removed */}
             {!user && (
               <button
                 onClick={onSignIn}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-teal-600 text-white font-semibold shadow-md shadow-teal-400/25 hover:-translate-y-0.5 transition-transform"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-slate-700 font-semibold border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all shadow-sm"
               >
                 <User size={18} />
                 Sign in
