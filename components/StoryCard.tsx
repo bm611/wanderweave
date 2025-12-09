@@ -1,6 +1,6 @@
 import React from 'react';
 import { SavedStory } from '../types';
-import { MapPin, Calendar, Trash2 } from 'lucide-react';
+import { Trash2, MapPin, Calendar } from 'lucide-react';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -29,126 +29,52 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
   };
 
   return (
-    <>
-      {/* Mobile Layout */}
-      <div
-        onClick={onClick}
-        className="sm:hidden group relative overflow-hidden rounded-2xl border border-white/70 bg-white/80 shadow-[0_18px_60px_rgba(15,23,42,0.12)] hover:-translate-y-1 transition-all duration-300 cursor-pointer aspect-[16/10]"
+    <div
+      onClick={onClick}
+      className="group relative bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+    >
+      {/* Delete Button - Top Right (Hover only) */}
+      <button
+        onClick={handleDelete}
+        className="absolute top-2 right-2 z-10 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-50 text-slate-400 hover:text-red-50 shadow-sm transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0"
       >
-        <div className="absolute inset-0">
-          {story.thumbnailUrl ? (
-            <img
-              src={story.thumbnailUrl}
-              alt={story.title}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div
-              className="w-full h-full flex items-center justify-center"
-              style={{ backgroundColor: story.themeColor || '#0d9488' }}
-            >
-              <span className="text-white/80 text-4xl font-serif">
-                {story.destination.charAt(0)}
-              </span>
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/35 to-transparent" />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_25%_20%,rgba(16,185,129,0.15),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.12),transparent_40%)]" />
-        </div>
+        <Trash2 size={16} />
+      </button>
 
-        <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/85 text-slate-800 text-xs font-medium shadow-sm">
-            <MapPin size={12} />
-            <span className="truncate max-w-[120px]">{story.destination}</span>
-          </span>
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-black/35 text-white text-xs font-medium backdrop-blur">
-            <Calendar size={12} />
-            {formatDate(story)}
-          </span>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 p-4 space-y-1">
-          <h3 className="font-serif font-semibold text-white text-lg leading-tight line-clamp-1 drop-shadow-md">
-            {story.title}
-          </h3>
-          <p className="text-sm text-white/85 line-clamp-2 drop-shadow">
-            {story.summary}
-          </p>
-        </div>
-
-        <button
-          onClick={handleDelete}
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 border border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200 transition-colors shadow-sm"
-        >
-          <Trash2 size={16} />
-        </button>
-
-        <div
-          className="absolute bottom-0 left-0 right-0 h-1.5"
-          style={{ backgroundColor: story.themeColor || '#0d9488' }}
-        />
-      </div>
-
-      {/* Desktop Layout */}
-      <div
-        onClick={onClick}
-        className="hidden sm:block group relative overflow-hidden rounded-3xl border border-white/70 bg-white/80 shadow-[0_24px_70px_rgba(15,23,42,0.08)] transition-all duration-500 cursor-pointer hover:-translate-y-1"
-      >
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.08),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.1),transparent_40%)]" />
-        <div className="aspect-[4/3] relative overflow-hidden">
-          {story.thumbnailUrl ? (
-            <img
-              src={story.thumbnailUrl}
-              alt={story.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          ) : (
-            <div
-              className="w-full h-full flex items-center justify-center"
-              style={{ backgroundColor: story.themeColor || '#0d9488' }}
-            >
-              <span className="text-white/80 text-4xl font-serif">
-                {story.destination.charAt(0)}
-              </span>
-            </div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60" />
-          <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/85 text-slate-800 text-xs font-medium shadow-sm">
-              <MapPin size={12} />
-              {story.destination}
-            </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-black/30 text-white text-xs font-medium backdrop-blur">
-              <Calendar size={12} />
-              {formatDate(story)}
+      {/* Image Container with specific radii */}
+      <div className="aspect-[4/3] w-full overflow-hidden rounded-[20px] shadow-inner bg-slate-100 relative">
+        {story.thumbnailUrl ? (
+          <img
+            src={story.thumbnailUrl}
+            alt={story.title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ backgroundColor: story.themeColor || '#0d9488' }}
+          >
+            <span className="text-white/80 text-4xl font-serif">
+              {story.destination.charAt(0)}
             </span>
           </div>
-          
-          <button
-            onClick={handleDelete}
-            className="absolute top-3 right-3 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-red-50 text-slate-500 hover:text-red-500 shadow-sm"
-          >
-            <Trash2 size={16} />
-          </button>
+        )}
+        
+        {/* Subtle border ring */}
+        <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[20px]" />
+      </div>
+
+      {/* Info Section (Replacing Title) */}
+      <div className="mt-5 mb-2 px-2 flex flex-col items-center gap-2">
+        <div className="flex items-center gap-1.5 text-slate-700 font-medium">
+          <MapPin size={16} className="text-teal-500 shrink-0" />
+          <span className="truncate max-w-[200px]">{story.destination}</span>
         </div>
-
-        <div className="relative p-5 space-y-3">
-          <h3 className="font-serif font-bold text-xl text-slate-900 leading-tight line-clamp-1">
-            {story.title}
-          </h3>
-
-          <p className="text-sm text-slate-600 line-clamp-2">
-            {story.summary}
-          </p>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-500/80 via-cyan-400/80 to-emerald-400/80">
-          <div
-            className="h-full"
-            style={{ backgroundColor: story.themeColor || '#0d9488', opacity: 0.4 }}
-          />
+        <div className="flex items-center gap-1.5 text-slate-500 text-sm">
+          <Calendar size={14} className="text-slate-400 shrink-0" />
+          <span>{formatDate(story)}</span>
         </div>
       </div>
-    </>
+    </div>
   );
 };
