@@ -3,8 +3,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { getUserStories, deleteStory } from '../services/supabase';
 import { SavedStory, StoryboardData, TripMemoryInput } from '../types';
 import { StoryCard } from './StoryCard';
-import { MapView } from './MapView';
-import { Plus, Compass, Loader2, LayoutGrid, Map, User } from 'lucide-react';
+import { StoryTimeline } from './StoryTimeline';
+import { Plus, Compass, Loader2, LayoutGrid, History } from 'lucide-react';
 
 interface StoriesGalleryProps {
   onCreateNew: () => void;
@@ -20,7 +20,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
   const { user, isConfigured } = useAuth();
   const [stories, setStories] = useState<SavedStory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'timeline'>('grid');
 
   useEffect(() => {
     if (user) {
@@ -57,7 +57,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
           <div className="relative grid md:grid-cols-3 gap-8 items-center px-8 sm:px-12 py-16">
             <div className="md:col-span-2 space-y-6">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/40 border border-white/50 text-teal-900 text-xs font-bold tracking-wide uppercase shadow-sm backdrop-blur-md">
-                Upload. Weave. Relive.
+                Your Memories, Reimagined
               </span>
               <h1 className="text-4xl sm:text-5xl font-serif font-bold leading-tight text-slate-800 tracking-tight">
                 Upload your trip photos and <br className="hidden sm:block"/>
@@ -95,16 +95,16 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
                   Grid
                 </button>
                 <button
-                  onClick={() => setViewMode('map')}
+                  onClick={() => setViewMode('timeline')}
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    viewMode === 'map' 
+                    viewMode === 'timeline' 
                       ? 'bg-white text-slate-900 shadow-sm' 
                       : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
                   }`}
-                  title="Map view"
+                  title="Timeline view"
                 >
-                  <Map size={16} />
-                  Map
+                  <History size={16} />
+                  Timeline
                 </button>
               </div>
             </div>
@@ -169,10 +169,8 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
               Create Your First Story
             </button>
           </div>
-        ) : viewMode === 'map' ? (
-          <div className="rounded-3xl border border-white/70 bg-white/80 shadow-[0_18px_50px_rgba(15,23,42,0.08)] overflow-hidden">
-            <MapView stories={stories} onViewStory={onViewStory} />
-          </div>
+        ) : viewMode === 'timeline' ? (
+          <StoryTimeline stories={stories} onViewStory={onViewStory} />
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {stories.map((story) => (

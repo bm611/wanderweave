@@ -78,25 +78,24 @@ const AppContent: React.FC = () => {
   };
 
   const NavBar = () => (
-    <nav className="sticky top-0 z-50 w-full border-b border-white/50 bg-white/60 backdrop-blur-xl transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
+    <nav className="sticky top-0 z-50 w-full transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <button
             onClick={handleReset}
             className="group flex items-center gap-2 transition-all hover:scale-[1.02]"
           >
-            <div className="relative flex items-center gap-2">
+            <div className="relative flex items-center gap-3">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full blur-md opacity-40 group-hover:opacity-60 transition-opacity" />
-                <div className="relative w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center shadow-lg">
-                  <Compass size={18} className="text-white shrink-0" />
+                <div className="absolute inset-0 bg-teal-400 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-50 to-white border border-teal-100 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-0.5">
+                  <Compass size={20} className="text-teal-600 shrink-0 rotate-0 group-hover:rotate-45 transition-transform duration-500" />
                 </div>
               </div>
-              <div className="flex flex-col -space-y-0.5">
-                <span className="text-xl font-serif font-bold bg-gradient-to-r from-teal-700 via-teal-600 to-cyan-600 bg-clip-text text-transparent">
-                  WanderWeave
+              <div className="flex flex-col">
+                <span className="text-xl font-serif font-bold tracking-tight text-slate-800">
+                  Wander<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500">Weave</span>
                 </span>
-                <div className="h-0.5 w-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full opacity-60" />
               </div>
             </div>
           </button>
