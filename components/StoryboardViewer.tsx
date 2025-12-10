@@ -84,9 +84,7 @@ export const StoryboardViewer: React.FC<StoryboardViewerProps> = ({ data, origin
              <span className="uppercase tracking-wide text-sm">{tripDetails.destination}</span>
           </div>
 
-          <p className="text-lg md:text-xl text-stone-600 leading-relaxed font-light max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '300ms' }}>
-            {data.summary}
-          </p>
+
         </div>
         
         {/* Decorative background element */}
