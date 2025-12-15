@@ -67,7 +67,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-8 animate-fade-in">
+    <div className="w-full max-w-4xl mx-auto px-4 pt-32 pb-12 animate-fade-in">
       <div className="text-center mb-10">
         <h1 className="text-4xl md:text-5xl font-serif font-bold text-slate-800 mb-4 dark:text-slate-100">
           Tell us about your trip

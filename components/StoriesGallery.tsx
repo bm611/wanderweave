@@ -47,7 +47,7 @@ export const StoriesGallery: React.FC<StoriesGalleryProps> = ({
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-12 space-y-10">
         {/* Modernized Hero Section */}
         <div className="relative overflow-hidden rounded-3xl bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-teal-200 via-cyan-200 to-sky-200 shadow-[0_24px_80px_rgba(14,165,233,0.15)] dark:from-teal-900 dark:via-cyan-900 dark:to-sky-900 dark:shadow-[0_24px_80px_rgba(14,165,233,0.3)]">
            <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl mix-blend-overlay dark:bg-black/20" />
