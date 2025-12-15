@@ -10,6 +10,11 @@ interface StoryboardViewerProps {
 }
 
 export const StoryboardViewer: React.FC<StoryboardViewerProps> = ({ data, originalMemories, tripDetails, onReset }) => {
+  // Scroll to top when component mounts
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Map original images to segments based on memoryId
   // Use stored imageUrl if available (for saved stories), otherwise use original previewUrl
   const enrichedSegments = data.segments.map(segment => {
