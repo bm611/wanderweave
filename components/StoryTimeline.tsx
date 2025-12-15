@@ -35,7 +35,7 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({ stories, onViewSto
   return (
     <div className="relative max-w-4xl mx-auto py-12 px-0 sm:px-4">
       {/* Central Line (Desktop) / Left Line (Mobile) */}
-      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-200 via-cyan-200 to-slate-200" />
+      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-teal-200 via-cyan-200 to-slate-200 dark:from-teal-800 dark:via-cyan-800 dark:to-slate-700" />
 
       <div className="space-y-8 md:space-y-12">
         {sortedStories.map((story, index) => {
@@ -44,11 +44,11 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({ stories, onViewSto
             <div key={story.id} className={`relative flex flex-col md:flex-row items-start md:items-center ${isEven ? '' : 'md:flex-row-reverse'}`}>
               
               {/* Timeline Node */}
-              <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-6 md:top-1/2 md:-translate-y-1/2 w-4 h-4 bg-white border-[3px] border-teal-500 rounded-full z-10 shadow-[0_0_0_4px_rgba(20,184,166,0.2)]" />
+              <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-6 md:top-1/2 md:-translate-y-1/2 w-4 h-4 bg-white border-[3px] border-teal-500 rounded-full z-10 shadow-[0_0_0_4px_rgba(20,184,166,0.2)] dark:bg-slate-800" />
 
               {/* Date Marker (Opposite side on desktop) */}
               <div className={`hidden md:block md:w-1/2 ${isEven ? 'md:pr-16 text-right' : 'md:pl-16 text-left'}`}>
-                <span className="inline-block py-1 px-3 rounded-full bg-teal-50 text-teal-700 text-sm font-semibold border border-teal-100">
+                <span className="inline-block py-1 px-3 rounded-full bg-teal-50 text-teal-700 text-sm font-semibold border border-teal-100 dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-700">
                   {formatDate(story)}
                 </span>
               </div>
@@ -62,6 +62,7 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({ stories, onViewSto
                     transition-all duration-300 cursor-pointer
                     hover:-translate-y-1 hover:shadow-lg hover:border-teal-200/60
                     ${isEven ? 'md:mr-auto' : 'md:ml-auto'}
+                    dark:bg-slate-800 dark:border-slate-700 dark:hover:border-teal-600/40
                   `}
                 >
                   {/* Connector Line (Mobile only) */}
@@ -69,13 +70,13 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({ stories, onViewSto
                   
                   {/* Mobile Date Badge */}
                   <div className="md:hidden mb-3">
-                    <span className="inline-block py-0.5 px-2 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold border border-teal-100">
+                    <span className="inline-block py-0.5 px-2 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold border border-teal-100 dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-700">
                       {formatDate(story)}
                     </span>
                   </div>
 
                   <div className="flex gap-4">
-                    <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-slate-100">
+                    <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
                       <img 
                         src={story.thumbnailUrl} 
                         alt={story.title} 
@@ -83,15 +84,15 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({ stories, onViewSto
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-serif font-bold text-slate-800 mb-1 truncate group-hover:text-teal-700 transition-colors">
+                      <h3 className="text-lg font-serif font-bold text-slate-800 mb-1 truncate group-hover:text-teal-700 transition-colors dark:text-slate-100 dark:group-hover:text-teal-400">
                         {story.title}
                       </h3>
-                      <div className="flex items-center gap-1.5 text-slate-500 text-sm mb-3">
-                        <MapPin size={14} className="text-teal-500 shrink-0" />
+                      <div className="flex items-center gap-1.5 text-slate-500 text-sm mb-3 dark:text-slate-400">
+                        <MapPin size={14} className="text-teal-500 shrink-0 dark:text-teal-400" />
                         <span className="truncate">{story.destination}</span>
                       </div>
                       
-                      <div className="flex items-center text-teal-600 text-sm font-medium opacity-100 md:opacity-0 md:-translate-x-2 md:group-hover:opacity-100 md:group-hover:translate-x-0 transition-all duration-300">
+                      <div className="flex items-center text-teal-600 text-sm font-medium opacity-100 md:opacity-0 md:-translate-x-2 md:group-hover:opacity-100 md:group-hover:translate-x-0 transition-all duration-300 dark:text-teal-400">
                         View Story <ArrowRight size={14} className="ml-1" />
                       </div>
                     </div>
@@ -104,8 +105,8 @@ export const StoryTimeline: React.FC<StoryTimelineProps> = ({ stories, onViewSto
         
         {/* End of Timeline */}
         <div className="relative flex items-center justify-start md:justify-center pt-8 pb-4">
-           <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-300 rounded-full" />
-           <p className="ml-12 md:ml-0 text-slate-400 text-sm italic">The journey continues...</p>
+           <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-300 rounded-full dark:bg-slate-600" />
+           <p className="ml-12 md:ml-0 text-slate-400 text-sm italic dark:text-slate-500">The journey continues...</p>
         </div>
       </div>
     </div>

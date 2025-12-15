@@ -69,56 +69,56 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-8 animate-fade-in">
       <div className="text-center mb-10">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold text-slate-800 mb-4">
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-slate-800 mb-4 dark:text-slate-100">
           Tell us about your trip
         </h1>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+        <p className="text-lg text-slate-600 max-w-2xl mx-auto dark:text-slate-300">
           Start with the basics, then upload your photos to weave your story.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-12">
         {/* Trip Details Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 dark:bg-slate-800 dark:border-slate-700">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                <Globe size={16} className="text-teal-600" />
+              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2 dark:text-slate-200">
+                <Globe size={16} className="text-teal-600 dark:text-teal-400" />
                 Destination
               </label>
               <input
                 type="text"
                 required
                 placeholder="e.g. Kyoto, Japan"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:ring-teal-400/20 dark:focus:border-teal-400"
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
               />
             </div>
             
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                <Calendar size={16} className="text-teal-600" />
+              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2 dark:text-slate-200">
+                <Calendar size={16} className="text-teal-600 dark:text-teal-400" />
                 When?
               </label>
               <input
                 type="text"
                 placeholder="e.g. October 2023"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:ring-teal-400/20 dark:focus:border-teal-400"
                 value={dates}
                 onChange={(e) => setDates(e.target.value)}
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                <Users size={16} className="text-teal-600" />
+              <label className="text-sm font-semibold text-slate-700 flex items-center gap-2 dark:text-slate-200">
+                <Users size={16} className="text-teal-600 dark:text-teal-400" />
                 Who with?
               </label>
               <input
                 type="text"
                 placeholder="e.g. Solo, Friends, Family"
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:ring-teal-400/20 dark:focus:border-teal-400"
                 value={companions}
                 onChange={(e) => setCompanions(e.target.value)}
               />
@@ -129,27 +129,27 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
         {/* Photos Section */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-             <h2 className="text-2xl font-serif font-bold text-slate-800">Your Memories</h2>
-             <span className="text-sm text-slate-500">{memories.length} photos selected</span>
+             <h2 className="text-2xl font-serif font-bold text-slate-800 dark:text-slate-100">Your Memories</h2>
+             <span className="text-sm text-slate-500 dark:text-slate-400">{memories.length} photos selected</span>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {memories.map((memory, index) => (
               <div 
                 key={memory.id} 
-                className="group relative bg-white rounded-2xl shadow-sm border border-slate-100 p-4 transition-all hover:shadow-md animate-slide-up"
+                className="group relative bg-white rounded-2xl shadow-sm border border-slate-100 p-4 transition-all hover:shadow-md animate-slide-up dark:bg-slate-800 dark:border-slate-700"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <button
                   type="button"
                   onClick={() => removeMemory(memory.id)}
-                  className="absolute -top-2 -right-2 bg-white text-slate-400 hover:text-red-500 rounded-full p-1 shadow-md border border-slate-100 z-10 transition-colors"
+                  className="absolute -top-2 -right-2 bg-white text-slate-400 hover:text-red-500 rounded-full p-1 shadow-md border border-slate-100 z-10 transition-colors dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:hover:text-red-400"
                 >
                   <X size={16} />
                 </button>
 
                 <div className="flex gap-4">
-                  <div className="w-24 h-24 flex-shrink-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-100">
+                  <div className="w-24 h-24 flex-shrink-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-100 dark:bg-slate-700 dark:border-slate-600">
                     <img
                       src={memory.previewUrl}
                       alt="Preview"
@@ -159,22 +159,22 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
                   
                   <div className="flex-1 space-y-3">
                     <div className="relative">
-                      <MapPin className="absolute top-2.5 left-3 text-slate-400" size={16} />
+                      <MapPin className="absolute top-2.5 left-3 text-slate-400 dark:text-slate-500" size={16} />
                       <input
                         type="text"
                         placeholder="Specific spot? (e.g. Gold Pavilion)"
-                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border-none rounded-lg text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500/20 focus:outline-none transition-all"
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border-none rounded-lg text-sm font-medium text-slate-800 placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500/20 focus:outline-none transition-all dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:ring-teal-400/20"
                         value={memory.location}
                         onChange={(e) => updateMemory(memory.id, 'location', e.target.value)}
                       />
                     </div>
                     
                     <div className="relative">
-                      <NotebookPen className="absolute top-2.5 left-3 text-slate-400" size={16} />
+                      <NotebookPen className="absolute top-2.5 left-3 text-slate-400 dark:text-slate-500" size={16} />
                       <input
                         type="text"
                         placeholder="Any specific memory?"
-                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border-none rounded-lg text-sm text-slate-600 placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500/20 focus:outline-none transition-all"
+                        className="w-full pl-9 pr-3 py-2 bg-slate-50 border-none rounded-lg text-sm text-slate-600 placeholder:text-slate-400 focus:ring-2 focus:ring-teal-500/20 focus:outline-none transition-all dark:bg-slate-700 dark:text-slate-300 dark:placeholder:text-slate-400 dark:focus:ring-teal-400/20"
                         value={memory.notes}
                         onChange={(e) => updateMemory(memory.id, 'notes', e.target.value)}
                       />
@@ -185,24 +185,24 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
             ))}
 
             {/* Add Button Area */}
-            <div 
-              onClick={() => !isCompressing && fileInputRef.current?.click()}
-              className={`flex flex-col items-center justify-center min-h-[160px] border-2 border-dashed border-slate-300 rounded-2xl transition-all group ${isCompressing ? 'cursor-wait opacity-70' : 'cursor-pointer hover:border-teal-500 hover:bg-teal-50/50'}`}
-            >
-              {isCompressing ? (
-                <>
-                  <Loader2 className="w-12 h-12 text-teal-600 animate-spin mb-3" />
-                  <p className="text-sm font-semibold text-slate-600">Optimizing photos...</p>
-                </>
-              ) : (
-                <>
-                  <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center mb-3 transition-colors">
-                    <ImageIcon className="text-slate-400 group-hover:text-teal-600" size={24} />
-                  </div>
-                  <p className="text-sm font-semibold text-slate-600 group-hover:text-teal-700">Add Photos</p>
-                  <p className="text-xs text-slate-400 mt-1">JPEGs or PNGs</p>
-                </>
-              )}
+<div 
+               onClick={() => !isCompressing && fileInputRef.current?.click()}
+               className={`flex flex-col items-center justify-center min-h-[160px] border-2 border-dashed border-slate-300 rounded-2xl transition-all group ${isCompressing ? 'cursor-wait opacity-70' : 'cursor-pointer hover:border-teal-500 hover:bg-teal-50/50'} dark:border-slate-600 dark:hover:border-teal-400 dark:hover:bg-teal-900/20`}
+             >
+               {isCompressing ? (
+                 <>
+                   <Loader2 className="w-12 h-12 text-teal-600 animate-spin mb-3 dark:text-teal-400" />
+                   <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Optimizing photos...</p>
+                 </>
+               ) : (
+                 <>
+                   <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center mb-3 transition-colors dark:bg-slate-700 dark:group-hover:bg-teal-900/30">
+                     <ImageIcon className="text-slate-400 group-hover:text-teal-600 dark:text-slate-500 dark:group-hover:text-teal-400" size={24} />
+                   </div>
+                   <p className="text-sm font-semibold text-slate-600 group-hover:text-teal-700 dark:text-slate-300 dark:group-hover:text-teal-400">Add Photos</p>
+                   <p className="text-xs text-slate-400 mt-1 dark:text-slate-500">JPEGs or PNGs</p>
+                 </>
+               )}
               <input
                 type="file"
                 multiple

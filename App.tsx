@@ -6,11 +6,13 @@ import { AuthModal } from './components/AuthModal';
 import { generateStoryboard } from './services/geminiService';
 import { saveStory } from './services/supabase';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import { AppState, StoryboardData, TripMemoryInput, TripDetails, SavedStory } from './types';
-import { Compass, User, LogOut, Github } from 'lucide-react';
+import { Compass, User, LogOut, Github, Moon, Sun } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const { user, signOut, isLoading: authLoading } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [appState, setAppState] = useState<AppState>(AppState.HOME);
   const [memories, setMemories] = useState<TripMemoryInput[]>([]);
   const [tripDetails, setTripDetails] = useState<TripDetails | null>(null);
@@ -93,19 +95,30 @@ const AppContent: React.FC = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-serif font-bold tracking-tight text-slate-800">
-                  Wander<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500">Weave</span>
+                <span className="text-xl font-serif font-bold tracking-tight text-slate-800 dark:text-slate-100">
+                  Wander<span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500 dark:from-teal-400 dark:to-cyan-400">Weave</span>
                 </span>
               </div>
             </div>
           </button>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleDarkMode}
+              className="group inline-flex items-center gap-1.5 rounded-full border border-slate-200/60 bg-white/50 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-sm hover:border-slate-300 hover:bg-white hover:text-slate-900 transition-all dark:border-slate-700/60 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-100"
+              title="Toggle dark mode"
+            >
+              {isDarkMode ? (
+                <Sun size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
+              ) : (
+                <Moon size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
+              )}
+            </button>
             <a
               href="https://github.com/bm611/wanderweave"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-1.5 rounded-full border border-slate-200/60 bg-white/50 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-sm hover:border-slate-300 hover:bg-white hover:text-slate-900 transition-all"
+              className="group inline-flex items-center gap-1.5 rounded-full border border-slate-200/60 bg-white/50 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-sm hover:border-slate-300 hover:bg-white hover:text-slate-900 transition-all dark:border-slate-700/60 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-100"
               title="View on GitHub"
             >
               <Github size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
@@ -113,15 +126,15 @@ const AppContent: React.FC = () => {
             </a>
             {user ? (
               <>
-                <div className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-gradient-to-br from-slate-50 to-slate-100/80 border border-slate-200/60 shadow-sm backdrop-blur-sm">
-                  <User size={14} className="text-teal-600 shrink-0" />
-                  <span className="text-sm font-medium text-slate-700">
+                <div className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-gradient-to-br from-slate-50 to-slate-100/80 border border-slate-200/60 shadow-sm backdrop-blur-sm dark:from-slate-800 dark:to-slate-700/80 dark:border-slate-600/60">
+                  <User size={14} className="text-teal-600 shrink-0 dark:text-teal-400" />
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
                     {user.email}
                   </span>
                 </div>
                 <button
                   onClick={() => signOut()}
-                  className="group inline-flex items-center gap-1.5 rounded-full bg-white/50 border border-slate-200/60 px-3 py-2 text-slate-600 backdrop-blur-sm hover:border-red-200 hover:bg-red-50/80 hover:text-red-600 transition-all shadow-sm"
+                  className="group inline-flex items-center gap-1.5 rounded-full bg-white/50 border border-slate-200/60 px-3 py-2 text-slate-600 backdrop-blur-sm hover:border-red-200 hover:bg-red-50/80 hover:text-red-600 transition-all shadow-sm dark:bg-slate-800/50 dark:border-slate-700/60 dark:text-slate-300 dark:hover:border-red-800/60 dark:hover:bg-red-900/20 dark:hover:text-red-400"
                   title="Sign out"
                 >
                   <LogOut size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
@@ -131,7 +144,7 @@ const AppContent: React.FC = () => {
             ) : (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-105 hover:bg-slate-800"
+                className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-105 hover:bg-slate-800 dark:bg-teal-600 dark:shadow-teal-600/20 dark:hover:bg-teal-700"
               >
                 <User size={16} className="shrink-0" />
                 <span>Sign In</span>
@@ -144,7 +157,7 @@ const AppContent: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen font-sans text-slate-900 bg-[radial-gradient(circle_at_10%_20%,rgba(56,189,248,0.12),transparent_38%),radial-gradient(circle_at_90%_15%,rgba(16,185,129,0.12),transparent_32%),radial-gradient(circle_at_50%_90%,rgba(14,165,233,0.1),transparent_40%),#f7f8fd] transition-colors">
+    <div className="min-h-screen font-sans text-slate-900 bg-[radial-gradient(circle_at_10%_20%,rgba(56,189,248,0.12),transparent_38%),radial-gradient(circle_at_90%_15%,rgba(16,185,129,0.12),transparent_32%),radial-gradient(circle_at_50%_90%,rgba(14,165,233,0.1),transparent_40%),#f7f8fd] transition-colors dark:text-slate-100 dark:bg-[radial-gradient(circle_at_10%_20%,rgba(56,189,248,0.08),transparent_38%),radial-gradient(circle_at_90%_15%,rgba(16,185,129,0.08),transparent_32%),radial-gradient(circle_at_50%_90%,rgba(14,165,233,0.06),transparent_40%),#0f172a]">
       <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
 
       {appState === AppState.HOME && (
@@ -166,7 +179,7 @@ const AppContent: React.FC = () => {
       )}
 
       {appState === AppState.PROCESSING && (
-        <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center animate-fade-in bg-gradient-to-b from-slate-50 to-teal-50/30">
+        <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center animate-fade-in bg-gradient-to-b from-slate-50 to-teal-50/30 dark:from-slate-900 dark:to-teal-900/20">
            <div className="relative mb-8">
              <div className="absolute inset-0 w-24 h-24 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
                <div className="absolute inset-0 bg-teal-400/20 rounded-full animate-pulse-ring"></div>
@@ -177,8 +190,8 @@ const AppContent: React.FC = () => {
                <Compass size={40} className="text-teal-600 relative z-10 animate-spin-slow" />
              </div>
            </div>
-           <h2 className="text-2xl font-serif font-bold text-slate-800 mb-2">Weaving your journey...</h2>
-           <p className="text-slate-500 max-w-sm mb-6">
+<h2 className="text-2xl font-serif font-bold text-slate-800 mb-2 dark:text-slate-100">Weaving your journey...</h2>
+            <p className="text-slate-500 max-w-sm mb-6 dark:text-slate-400">
              Our AI is analyzing your photos from {tripDetails?.destination}, matching the vibes, and crafting your story.
            </p>
            <div className="flex gap-2">
@@ -200,24 +213,24 @@ const AppContent: React.FC = () => {
 
       {appState === AppState.ERROR && (
         <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6 text-red-500">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6 text-red-500 dark:bg-red-900/20 dark:text-red-400">
             <Compass size={32} className="transform rotate-180" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">Oops, we hit a bump.</h2>
-          <p className="text-slate-600 mb-8 max-w-md">{errorMsg}</p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2 dark:text-slate-100">Oops, we hit a bump.</h2>
+          <p className="text-slate-600 mb-8 max-w-md dark:text-slate-300">{errorMsg}</p>
           <div className="flex gap-4">
-            <button 
-              onClick={() => setAppState(AppState.INPUT)}
-              className="px-6 py-3 rounded-lg border border-slate-200 font-medium hover:bg-slate-50 transition-colors"
-            >
-              Start Over
-            </button>
-            <button 
-              onClick={handleRetry}
-              className="px-6 py-3 rounded-lg bg-teal-600 text-white font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20"
-            >
-              Try Again
-            </button>
+<button 
+               onClick={() => setAppState(AppState.INPUT)}
+               className="px-6 py-3 rounded-lg border border-slate-200 font-medium hover:bg-slate-50 transition-colors dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+             >
+               Start Over
+             </button>
+             <button 
+               onClick={handleRetry}
+               className="px-6 py-3 rounded-lg bg-teal-600 text-white font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20 dark:bg-teal-500 dark:hover:bg-teal-600 dark:shadow-teal-500/30"
+             >
+               Try Again
+             </button>
           </div>
         </div>
       )}
@@ -226,9 +239,11 @@ const AppContent: React.FC = () => {
 };
 
 const App: React.FC = () => (
-  <AuthProvider>
-    <AppContent />
-  </AuthProvider>
+  <DarkModeProvider>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  </DarkModeProvider>
 );
 
 export default App;
