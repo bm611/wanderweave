@@ -8,7 +8,8 @@ import { saveStory } from './services/supabase';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import { AppState, StoryboardData, TripMemoryInput, TripDetails, SavedStory } from './types';
-import { Compass, User, LogOut, Github, Moon, Sun } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Compass01Icon, UserIcon, Logout01Icon, GithubIcon, Moon02Icon, Sun01Icon } from '@hugeicons/core-free-icons';
 
 const AppContent: React.FC = () => {
   const { user, signOut, isLoading: authLoading } = useAuth();
@@ -90,7 +91,7 @@ const AppContent: React.FC = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-teal-400 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
               <div className="relative w-9 h-9 rounded-full bg-gradient-to-tr from-teal-50 to-white border border-teal-100 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:-translate-y-0.5">
-                <Compass size={18} className="text-teal-600 shrink-0 rotate-0 group-hover:rotate-45 transition-transform duration-500" />
+                <HugeiconsIcon icon={Compass01Icon} size={18} className="text-teal-600 shrink-0 rotate-0 group-hover:rotate-45 transition-transform duration-500" />
               </div>
             </div>
             <div className="flex flex-col">
@@ -108,9 +109,9 @@ const AppContent: React.FC = () => {
             title="Toggle dark mode"
           >
             {isDarkMode ? (
-              <Sun size={18} className="shrink-0 group-hover:scale-110 transition-transform" />
+              <HugeiconsIcon icon={Sun01Icon} size={18} className="shrink-0 group-hover:scale-110 transition-transform" />
             ) : (
-              <Moon size={18} className="shrink-0 group-hover:scale-110 transition-transform" />
+              <HugeiconsIcon icon={Moon02Icon} size={18} className="shrink-0 group-hover:scale-110 transition-transform" />
             )}
           </button>
           <a
@@ -120,13 +121,13 @@ const AppContent: React.FC = () => {
             className="group hidden sm:inline-flex items-center gap-1.5 rounded-full border border-slate-200/60 bg-white/50 px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-sm hover:border-slate-300 hover:bg-white hover:text-slate-900 transition-all dark:border-slate-700/60 dark:bg-slate-800/50 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-100"
             title="View on GitHub"
           >
-            <Github size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
+            <HugeiconsIcon icon={GithubIcon} size={16} className="shrink-0 group-hover:scale-110 transition-transform" />
             <span className="hidden sm:inline">Star</span>
           </a>
           {user ? (
             <>
               <div className="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-full bg-gradient-to-br from-slate-50 to-slate-100/80 border border-slate-200/60 shadow-sm backdrop-blur-sm dark:from-slate-800 dark:to-slate-700/80 dark:border-slate-600/60">
-                <User size={14} className="text-teal-600 shrink-0 dark:text-teal-400" />
+                <HugeiconsIcon icon={UserIcon} size={14} className="text-teal-600 shrink-0 dark:text-teal-400" />
                 <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
                   {user.email}
                 </span>
@@ -136,7 +137,7 @@ const AppContent: React.FC = () => {
                 className="group inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/50 border border-slate-200/60 text-slate-600 backdrop-blur-sm hover:border-red-200 hover:bg-red-50/80 hover:text-red-600 transition-all shadow-sm dark:bg-slate-800/50 dark:border-slate-700/60 dark:text-slate-300 dark:hover:border-red-800/60 dark:hover:bg-red-900/20 dark:hover:text-red-400"
                 title="Sign out"
               >
-                <LogOut size={18} className="shrink-0 group-hover:scale-110 transition-transform" />
+                <HugeiconsIcon icon={Logout01Icon} size={18} className="shrink-0 group-hover:scale-110 transition-transform" />
               </button>
             </>
           ) : (
@@ -144,7 +145,7 @@ const AppContent: React.FC = () => {
               onClick={() => setShowAuthModal(true)}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-105 hover:bg-slate-800 dark:bg-teal-600 dark:shadow-teal-600/20 dark:hover:bg-teal-700"
             >
-              <User size={16} className="shrink-0" />
+              <HugeiconsIcon icon={UserIcon} size={16} className="shrink-0" />
               <span className="hidden sm:inline">Sign In</span>
             </button>
           )}
@@ -177,57 +178,57 @@ const AppContent: React.FC = () => {
 
       {appState === AppState.PROCESSING && (
         <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center animate-fade-in bg-gradient-to-b from-slate-50 to-teal-50/30 dark:from-slate-900 dark:to-teal-900/20">
-           <div className="relative mb-8">
-             <div className="absolute inset-0 w-24 h-24 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
-               <div className="absolute inset-0 bg-teal-400/20 rounded-full animate-pulse-ring"></div>
-               <div className="absolute inset-2 bg-teal-300/20 rounded-full animate-pulse-ring" style={{ animationDelay: '0.5s' }}></div>
-             </div>
-             <div className="relative w-20 h-20 flex items-center justify-center">
-               <div className="absolute inset-0 bg-teal-100 rounded-full"></div>
-               <Compass size={40} className="text-teal-600 relative z-10 animate-spin-slow" />
-             </div>
-           </div>
-<h2 className="text-2xl font-serif font-bold text-slate-800 mb-2 dark:text-slate-100">Weaving your journey...</h2>
-            <p className="text-slate-500 max-w-sm mb-6 dark:text-slate-400">
-             Our AI is analyzing your photos from {tripDetails?.destination}, matching the vibes, and crafting your story.
-           </p>
-           <div className="flex gap-2">
-             <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce-dot"></div>
-             <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce-dot" style={{ animationDelay: '0.16s' }}></div>
-             <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce-dot" style={{ animationDelay: '0.32s' }}></div>
-           </div>
+          <div className="relative mb-8">
+            <div className="absolute inset-0 w-24 h-24 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+              <div className="absolute inset-0 bg-teal-400/20 rounded-full animate-pulse-ring"></div>
+              <div className="absolute inset-2 bg-teal-300/20 rounded-full animate-pulse-ring" style={{ animationDelay: '0.5s' }}></div>
+            </div>
+            <div className="relative w-20 h-20 flex items-center justify-center">
+              <div className="absolute inset-0 bg-teal-100 rounded-full"></div>
+              <HugeiconsIcon icon={Compass01Icon} size={40} className="text-teal-600 relative z-10 animate-spin-slow" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-serif font-bold text-slate-800 mb-2 dark:text-slate-100">Weaving your journey...</h2>
+          <p className="text-slate-500 max-w-sm mb-6 dark:text-slate-400">
+            Our AI is analyzing your photos from {tripDetails?.destination}, matching the vibes, and crafting your story.
+          </p>
+          <div className="flex gap-2">
+            <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce-dot"></div>
+            <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce-dot" style={{ animationDelay: '0.16s' }}></div>
+            <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce-dot" style={{ animationDelay: '0.32s' }}></div>
+          </div>
         </div>
       )}
 
       {appState === AppState.STORYBOARD && storyboardData && tripDetails && (
-        <StoryboardViewer 
-          data={storyboardData} 
+        <StoryboardViewer
+          data={storyboardData}
           originalMemories={memories}
           tripDetails={tripDetails}
-          onReset={handleReset} 
+          onReset={handleReset}
         />
       )}
 
       {appState === AppState.ERROR && (
         <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-6 text-red-500 dark:bg-red-900/20 dark:text-red-400">
-            <Compass size={32} className="transform rotate-180" />
+            <HugeiconsIcon icon={Compass01Icon} size={32} className="transform rotate-180" />
           </div>
           <h2 className="text-2xl font-bold text-slate-800 mb-2 dark:text-slate-100">Oops, we hit a bump.</h2>
           <p className="text-slate-600 mb-8 max-w-md dark:text-slate-300">{errorMsg}</p>
           <div className="flex gap-4">
-<button 
-               onClick={() => setAppState(AppState.INPUT)}
-               className="px-6 py-3 rounded-lg border border-slate-200 font-medium hover:bg-slate-50 transition-colors dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
-             >
-               Start Over
-             </button>
-             <button 
-               onClick={handleRetry}
-               className="px-6 py-3 rounded-lg bg-teal-600 text-white font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20 dark:bg-teal-500 dark:hover:bg-teal-600 dark:shadow-teal-500/30"
-             >
-               Try Again
-             </button>
+            <button
+              onClick={() => setAppState(AppState.INPUT)}
+              className="px-6 py-3 rounded-lg border border-slate-200 font-medium hover:bg-slate-50 transition-colors dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+            >
+              Start Over
+            </button>
+            <button
+              onClick={handleRetry}
+              className="px-6 py-3 rounded-lg bg-teal-600 text-white font-medium hover:bg-teal-700 transition-colors shadow-lg shadow-teal-500/20 dark:bg-teal-500 dark:hover:bg-teal-600 dark:shadow-teal-500/30"
+            >
+              Try Again
+            </button>
           </div>
         </div>
       )}

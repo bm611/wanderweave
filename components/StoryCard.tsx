@@ -1,6 +1,7 @@
 import React from 'react';
 import { SavedStory } from '../types';
-import { Trash2, MapPin, Calendar } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Delete02Icon, Location01Icon, Calendar01Icon } from '@hugeicons/core-free-icons';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -38,7 +39,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
         onClick={handleDelete}
         className="absolute top-2 right-2 z-10 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-50 text-slate-400 hover:text-red-50 shadow-sm transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 dark:bg-slate-700/90 dark:text-slate-300 dark:hover:bg-red-900/20 dark:hover:text-red-400"
       >
-        <Trash2 size={16} />
+        <HugeiconsIcon icon={Delete02Icon} size={16} />
       </button>
 
       {/* Image Container with specific radii */}
@@ -59,7 +60,7 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
             </span>
           </div>
         )}
-        
+
         {/* Subtle border ring */}
         <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[20px]" />
       </div>
@@ -67,11 +68,11 @@ export const StoryCard: React.FC<StoryCardProps> = ({ story, onClick, onDelete }
       {/* Info Section (Replacing Title) */}
       <div className="mt-5 mb-2 px-2 flex flex-col items-center gap-2">
         <div className="flex items-center gap-1.5 text-slate-700 font-medium dark:text-slate-200">
-          <MapPin size={16} className="text-teal-500 shrink-0 dark:text-teal-400" />
+          <HugeiconsIcon icon={Location01Icon} size={16} className="text-teal-500 shrink-0 dark:text-teal-400" />
           <span className="truncate max-w-[120px] sm:max-w-[200px]">{story.destination}</span>
         </div>
         <div className="flex items-center gap-1.5 text-slate-500 text-sm dark:text-slate-400">
-          <Calendar size={14} className="text-slate-400 shrink-0 dark:text-slate-500" />
+          <HugeiconsIcon icon={Calendar01Icon} size={14} className="text-slate-400 shrink-0 dark:text-slate-500" />
           <span>{formatDate(story)}</span>
         </div>
       </div>

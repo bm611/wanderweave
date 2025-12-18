@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { TripMemoryInput, TripDetails } from '../types';
-import { Plus, X, Image as ImageIcon, MapPin, NotebookPen, Sparkles, Calendar, Users, Globe, Loader2 } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Add01Icon, Cancel01Icon, Image01Icon, Location01Icon, PencilEdit02Icon, SparklesIcon, Calendar01Icon, UserGroupIcon, Globe02Icon, Loading03Icon } from '@hugeicons/core-free-icons';
 import { compressImage } from '../services/imageUtils';
 import { parseDate } from '../services/dateParser';
 
@@ -22,7 +23,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
     if (e.target.files && e.target.files.length > 0) {
       setIsCompressing(true);
       const files = Array.from(e.target.files);
-      
+
       const newMemories: TripMemoryInput[] = await Promise.all(
         files.map(async (file) => {
           const compressedBlob = await compressImage(file);
@@ -35,7 +36,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
           };
         })
       );
-      
+
       setMemories((prev) => [...prev, ...newMemories]);
       setIsCompressing(false);
     }
@@ -57,12 +58,12 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
     e.preventDefault();
     if (memories.length === 0) return;
     const parsed = parseDate(dates);
-    onSubmit(memories, { 
-      destination, 
-      dates, 
+    onSubmit(memories, {
+      destination,
+      dates,
       parsedYear: parsed.year,
       parsedMonth: parsed.month,
-      companions 
+      companions
     });
   };
 
@@ -83,7 +84,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2 dark:text-slate-200">
-                <Globe size={16} className="text-teal-600 dark:text-teal-400" />
+                <HugeiconsIcon icon={Globe02Icon} size={16} className="text-teal-600 dark:text-teal-400" />
                 Destination
               </label>
               <input
@@ -95,10 +96,10 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
                 onChange={(e) => setDestination(e.target.value)}
               />
             </div>
-            
+
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2 dark:text-slate-200">
-                <Calendar size={16} className="text-teal-600 dark:text-teal-400" />
+                <HugeiconsIcon icon={Calendar01Icon} size={16} className="text-teal-600 dark:text-teal-400" />
                 When?
               </label>
               <input
@@ -112,7 +113,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
 
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2 dark:text-slate-200">
-                <Users size={16} className="text-teal-600 dark:text-teal-400" />
+                <HugeiconsIcon icon={UserGroupIcon} size={16} className="text-teal-600 dark:text-teal-400" />
                 Who with?
               </label>
               <input
@@ -129,14 +130,14 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
         {/* Photos Section */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-             <h2 className="text-2xl font-serif font-bold text-slate-800 dark:text-slate-100">Your Memories</h2>
-             <span className="text-sm text-slate-500 dark:text-slate-400">{memories.length} photos selected</span>
+            <h2 className="text-2xl font-serif font-bold text-slate-800 dark:text-slate-100">Your Memories</h2>
+            <span className="text-sm text-slate-500 dark:text-slate-400">{memories.length} photos selected</span>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {memories.map((memory, index) => (
-              <div 
-                key={memory.id} 
+              <div
+                key={memory.id}
                 className="group relative bg-white rounded-2xl shadow-sm border border-slate-100 p-4 transition-all hover:shadow-md animate-slide-up dark:bg-slate-800 dark:border-slate-700"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
@@ -145,7 +146,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
                   onClick={() => removeMemory(memory.id)}
                   className="absolute -top-2 -right-2 bg-white text-slate-400 hover:text-red-500 rounded-full p-1 shadow-md border border-slate-100 z-10 transition-colors dark:bg-slate-700 dark:border-slate-600 dark:text-slate-300 dark:hover:text-red-400"
                 >
-                  <X size={16} />
+                  <HugeiconsIcon icon={Cancel01Icon} size={16} />
                 </button>
 
                 <div className="flex gap-4">
@@ -156,10 +157,10 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  
+
                   <div className="flex-1 space-y-3">
                     <div className="relative">
-                      <MapPin className="absolute top-2.5 left-3 text-slate-400 dark:text-slate-500" size={16} />
+                      <HugeiconsIcon icon={Location01Icon} className="absolute top-2.5 left-3 text-slate-400 dark:text-slate-500" size={16} />
                       <input
                         type="text"
                         placeholder="Specific spot? (e.g. Gold Pavilion)"
@@ -168,9 +169,9 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
                         onChange={(e) => updateMemory(memory.id, 'location', e.target.value)}
                       />
                     </div>
-                    
+
                     <div className="relative">
-                      <NotebookPen className="absolute top-2.5 left-3 text-slate-400 dark:text-slate-500" size={16} />
+                      <HugeiconsIcon icon={PencilEdit02Icon} className="absolute top-2.5 left-3 text-slate-400 dark:text-slate-500" size={16} />
                       <input
                         type="text"
                         placeholder="Any specific memory?"
@@ -185,24 +186,24 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
             ))}
 
             {/* Add Button Area */}
-<div 
-               onClick={() => !isCompressing && fileInputRef.current?.click()}
-               className={`flex flex-col items-center justify-center min-h-[160px] border-2 border-dashed border-slate-300 rounded-2xl transition-all group ${isCompressing ? 'cursor-wait opacity-70' : 'cursor-pointer hover:border-teal-500 hover:bg-teal-50/50'} dark:border-slate-600 dark:hover:border-teal-400 dark:hover:bg-teal-900/20`}
-             >
-               {isCompressing ? (
-                 <>
-                   <Loader2 className="w-12 h-12 text-teal-600 animate-spin mb-3 dark:text-teal-400" />
-                   <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Optimizing photos...</p>
-                 </>
-               ) : (
-                 <>
-                   <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center mb-3 transition-colors dark:bg-slate-700 dark:group-hover:bg-teal-900/30">
-                     <ImageIcon className="text-slate-400 group-hover:text-teal-600 dark:text-slate-500 dark:group-hover:text-teal-400" size={24} />
-                   </div>
-                   <p className="text-sm font-semibold text-slate-600 group-hover:text-teal-700 dark:text-slate-300 dark:group-hover:text-teal-400">Add Photos</p>
-                   <p className="text-xs text-slate-400 mt-1 dark:text-slate-500">JPEGs or PNGs</p>
-                 </>
-               )}
+            <div
+              onClick={() => !isCompressing && fileInputRef.current?.click()}
+              className={`flex flex-col items-center justify-center min-h-[160px] border-2 border-dashed border-slate-300 rounded-2xl transition-all group ${isCompressing ? 'cursor-wait opacity-70' : 'cursor-pointer hover:border-teal-500 hover:bg-teal-50/50'} dark:border-slate-600 dark:hover:border-teal-400 dark:hover:bg-teal-900/20`}
+            >
+              {isCompressing ? (
+                <>
+                  <HugeiconsIcon icon={Loading03Icon} className="w-12 h-12 text-teal-600 animate-spin mb-3 dark:text-teal-400" />
+                  <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Optimizing photos...</p>
+                </>
+              ) : (
+                <>
+                  <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-teal-100 flex items-center justify-center mb-3 transition-colors dark:bg-slate-700 dark:group-hover:bg-teal-900/30">
+                    <HugeiconsIcon icon={Image01Icon} className="text-slate-400 group-hover:text-teal-600 dark:text-slate-500 dark:group-hover:text-teal-400" size={24} />
+                  </div>
+                  <p className="text-sm font-semibold text-slate-600 group-hover:text-teal-700 dark:text-slate-300 dark:group-hover:text-teal-400">Add Photos</p>
+                  <p className="text-xs text-slate-400 mt-1 dark:text-slate-500">JPEGs or PNGs</p>
+                </>
+              )}
               <input
                 type="file"
                 multiple
@@ -232,7 +233,7 @@ export const TripForm: React.FC<TripFormProps> = ({ onSubmit, isProcessing }) =>
                 </>
               ) : (
                 <>
-                  <Sparkles size={20} className="animate-pulse" />
+                  <HugeiconsIcon icon={SparklesIcon} size={20} className="animate-pulse" />
                   <span>Generate Storyboard</span>
                 </>
               )}
